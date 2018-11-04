@@ -20,6 +20,8 @@ export default class Home extends React.Component {
         </Text>
         <STButton title="Login"> </STButton>
         <STButton title="Register"> </STButton>
+        <STButton title="Start"
+                  onPress={() => this.props.navigation.navigate('StoryList')}> </STButton>
       </View>
     );
   }
