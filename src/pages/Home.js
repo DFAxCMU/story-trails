@@ -19,7 +19,8 @@ export default class Home extends React.Component {
         STORY TRAILS
         </Text>
         <STButton title="Login"> </STButton>
-        <STButton title="Register"> </STButton>
+        <STButton title="Register"
+                  onPress={() => this.props.navigation.navigate('Register')}> </STButton>
         <STButton title="Start"
                   onPress={() => this.props.navigation.navigate('StoryList')}> </STButton>
       </View>
