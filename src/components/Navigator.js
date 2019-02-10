@@ -9,11 +9,11 @@ const RootStack = createStackNavigator(
   {
     Home: Home,
     StoryList: StoryList,
-    Register: Register
+    Register: Register,
     Login: Login
   },
   {
-    initialRouteName: 'Register',
+    initialRouteName: 'Home',
     navigationOptions: {
     },
     headerMode: 'none',
