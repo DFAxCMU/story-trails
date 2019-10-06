@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { Alert, View, Button } from 'react-native';
 
 export default class STButton extends React.Component {
   render() {
