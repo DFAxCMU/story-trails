@@ -15,7 +15,7 @@ const RootStack = createStackNavigator(
     InfoForm: InfoForm,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'InfoForm',
     navigationOptions: {
     },
     headerMode: 'none',
