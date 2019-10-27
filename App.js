@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { createStackNavigator } from 'react-navigation';
 import createStore from './src/store/createStore.js';
 
 import Home from './src/pages/Home.js'
@@ -17,3 +18,8 @@ export default class App extends React.Component {
         </Provider>
     }
 }
+
+
+
+
+

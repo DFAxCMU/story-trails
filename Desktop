@@ -1,0 +1,457 @@
+/*
+ * TODO: Include your name and Andrew ID here.
+ */
+
+/*
+ * TODO: Delete this comment and replace it with your own.
+ * tsh - A tiny shell program with job control
+ * <The line above is not a sufficient documentation.
+ *  You will need to write your program documentation.
+ *  Follow the 15-213/18-213/15-513 style guide at
+ *  http://www.cs.cmu.edu/~213/codeStyle.html.>
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <signal.h>
+
+#include <ctype.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+
+#include "tsh_helper.h"
+#include "csapp.h"
+
+/*
+ * If DEBUG is defined, enable contracts and printing on dbg_printf.
+ */
+#ifdef DEBUG
+/* When debugging is enabled, these form aliases to useful functions */
+#define dbg_printf(...) printf(__VA_ARGS__)
+#define dbg_requires(...) assert(__VA_ARGS__)
+#define dbg_assert(...) assert(__VA_ARGS__)
+#define dbg_ensures(...) assert(__VA_ARGS__)
+#else
+/* When debugging is disabled, no code gets generated for these */
+#define dbg_printf(...)
+#define dbg_requires(...)
+#define dbg_assert(...)
+#define dbg_ensures(...)
+#endif
+
+/* Function prototypes */
+void eval(const char *cmdline);
+
+void sigchld_handler(int sig);
+void sigtstp_handler(int sig);
+void sigint_handler(int sig);
+void sigquit_handler(int sig);
+void cleanup(void);
+
+
+
+/*
+ * TODO: Delete this comment and replace it with your own.
+ * <Write main's function header documentation. What does main do?>
+ * "Each function should be prefaced with a comment describing the purpose
+ *  of the function (in a sentence or two), the function's arguments and
+ *  return value, any error cases that are relevant to the caller,
+ *  any pertinent side effects, and any assumptions that the function makes."
+ */
+int main(int argc, char **argv) {
+    char c;
+    char cmdline[MAXLINE_TSH];  // Cmdline for fgets
+    bool emit_prompt = true;    // Emit prompt (default)
+
+    // Redirect stderr to stdout (so that driver will get all output
+    // on the pipe connected to stdout)
+    Dup2(STDOUT_FILENO, STDERR_FILENO);
+
+    // Parse the command line
+    while ((c = getopt(argc, argv, "hvp")) != EOF) {
+        switch (c) {
+        case 'h':                   // Prints help message
+            usage();
+            break;
+        case 'v':                   // Emits additional diagnostic info
+            verbose = true;
+            break;
+        case 'p':                   // Disables prompt printing
+            emit_prompt = false;
+            break;
+        default:
+            usage();
+        }
+    }
+
+    // Create environment variable
+    if (putenv("MY_ENV=42") < 0) {
+        perror("putenv");
+        exit(1);
+    }
+
+    // Set buffering mode of stdout to line buffering.
+    // This prevents lines from being printed in the wrong order.
+    if (setvbuf(stdout, NULL, _IOLBF, 0) < 0) {
+        perror("setvbuf");
+        exit(1);
+    }
+
+    // Initialize the job list    
+    // Register a function to clean up the job list on program termination.
+    // The function may not run in the case of abnormal termination (e.g. when
+    // using _exit or terminating due to a signal handler), so in those cases,
+    // we trust that the OS will clean up any remaining resources.
+    if (atexit(cleanup) < 0) {
+        perror("atexit");
+        exit(1);
+    }
+
+    // Install the signal handlers
+    Signal(SIGINT,  sigint_handler);   // Handles Ctrl-C
+    Signal(SIGTSTP, sigtstp_handler);  // Handles Ctrl-Z
+    Signal(SIGCHLD, sigchld_handler);  // Handles terminated or stopped child
+
+    Signal(SIGTTIN, SIG_IGN);
+    Signal(SIGTTOU, SIG_IGN);
+
+    Signal(SIGQUIT, sigquit_handler);
+
+    // Execute the shell's read/eval loop
+    while (true) {
+        if (emit_prompt) {
+            printf("%s", prompt);
+
+            // We must flush stdout since we are not printing a full line.
+            fflush(stdout);
+        }
+
+        if ((fgets(cmdline, MAXLINE_TSH, stdin) == NULL) && ferror(stdin)) {
+            app_error("fgets error");
+        }
+
+        if (feof(stdin)) {
+            // End of file (Ctrl-D)
+            printf("\n");
+            return 0;
+        }
+
+        // Remove any trailing newline
+        char *newline = strchr(cmdline, '\n');
+        if (newline != NULL) {
+            *newline = '\0';
+        }
+
+        // Evaluate the command line
+        eval(cmdline);
+    }
+
+    return -1; // control never reaches here
+}
+
+
+/* Handy guide for eval:
+ *
+ * If the user has requested a built-in command (quit, jobs, bg or fg),
+ * then execute it immediately. Otherwise, fork a child process and
+ * run the job in the context of the child. If the job is running in
+ * the foreground, wait for it to terminate and then return.
+ * Note: each child process must have a unique process group ID so that our
+ * background children don't receive SIGINT (SIGTSTP) from the kernel
+ * when we type Ctrl-C (Ctrl-Z) at the keyboard.
+ */
+
+// void waitfg(pid_t pid) {
+//     sigset_t mask;
+//     Sigemptyset(&mask);
+//     jid_t jid = job_from_pid(pid);
+
+//     while (job_get_state(jid) == FG){
+//         Sigsuspend(&mask);
+//     }
+//     return;
+// }
+
+void fgbg(char **argv, builtin_state state){
+    // jid_t jid;
+    // pid_t pid;
+
+    // if(argv[1] == NULL) {
+    //     unix_error("must pass in valid pid or jid argument" );
+    //     return;
+    // }
+
+    // // jid 
+    // if(strncmp(argv[1], "%", 1)) {  
+    //     jid = atoi(argv[1] + 1); // take out percent symbol  
+
+    //     //get job
+    //     if(jid <= 0 || !(job_exists(jid))){
+    //         unix_error("invalid jid passed in" );
+    //         return; 
+    //     } 
+    //     else pid = job_get_pid(jid);
+
+    // }
+
+    // // pid
+    // else if(isdigit(*argv[1])) { 
+    //     pid = atoi(argv[1]); 
+    //     if (pid <= 0) return; 
+    //     jid = job_from_pid(pid);
+
+    //     if(!job_exists(jid)){  
+    //         unix_error("invalid pid passed in" );
+    //         return;  
+    //     }  
+    // }
+
+    // else {
+    //     printf("must pass in valid pid or jid" );
+    //     return;
+    // }
+
+
+    
+    // job_state jobstate = job_get_state(jid); 
+    // // int status = 0; 
+
+    // if (jobstate == ST && state == BUILTIN_BG){
+    //     job_set_state(jid, BG);
+    //     Kill(-pid, SIGCONT);
+    // }
+
+    // else if (jobstate == ST && state == BUILTIN_FG){
+    //     job_set_state(jid, FG);
+    //     Kill(-pid, SIGCONT);
+    //     waitfg(pid);
+    //     // Waitpid(pid, &status, 0);
+    // }
+
+    // else if (jobstate == BG && state == BUILTIN_FG){
+    //     job_set_state(jid, FG);
+    //     waitfg(pid);
+    //     // Waitpid(pid, &status, 0);
+    // }
+
+    // if(state == BUILTIN_FG) {
+    //     job_set_state(jid, FG);
+    //     waitfg(pid);
+    // } 
+    // else{
+        
+    // } 
+    return; 
+
+}
+
+int builtin_command(char **argv, builtin_state state){
+
+    // check if there are stopped jobs?
+    if(argv[0] == NULL) return 1;
+    if(!strcmp(argv[0], "&")) return 1; 
+    else if (state == BUILTIN_QUIT) exit(0);  // quit command
+    else if (state == BUILTIN_JOBS) list_jobs(0);
+    else if (state == BUILTIN_BG || state == BUILTIN_FG) fgbg(argv, state);
+    else return 0; 
+    return 1;                              
+}
+
+// tsh> ./myspin1 &
+// [1] (24434) ./myspin1 &
+// tsh> ./myspin2 1
+
+/*
+ * TODO: Delete this comment and replace it with your own.
+ * <What does eval do?>
+ */
+void eval(const char *cmdline) {
+    pid_t pid; jid_t jid;
+    parseline_return parse_result;
+    struct cmdline_tokens token;
+    sigset_t mask, prev;
+
+    // Parse command line
+    parse_result = parseline(cmdline, &token);
+    if (parse_result == PARSELINE_ERROR || parse_result == PARSELINE_EMPTY) {
+        return;
+    }
+
+    // ignore empty lines
+    if (token.argv[0] == NULL) return;     
+
+    Sigemptyset(&mask);
+    Sigaddset(&mask, SIGCHLD);
+    Sigaddset(&mask, SIGINT);
+    Sigaddset(&mask, SIGTSTP);
+
+    switch(token.builtin){
+
+        case BUILTIN_NONE: 
+
+            // we're in the child process
+            Sigprocmask(SIG_BLOCK, &mask, &prev);
+            if ((pid = Fork()) == 0){         
+                Sigprocmask(SIG_SETMASK, &prev, NULL);
+                Setpgid(0, 0);
+                Execve(token.argv[0], token.argv, environ);
+
+            }
+
+            // we're in the parent process
+            // background job 
+            if (parse_result == PARSELINE_BG){
+                
+                jid = add_job(pid, BG, cmdline);
+                Sigprocmask(SIG_SETMASK, &prev, NULL);
+
+                Sio_printf("[%d] (%d) %s \n", jid, pid, cmdline);
+            }
+
+            //foreground job
+            else if (parse_result == PARSELINE_FG){
+
+                jid = add_job(pid, FG, cmdline);
+
+                while (job_exists(jid) && pid == job_get_pid(jid) && job_get_state(jid) == FG ){
+                    Sigsuspend(&prev);
+                }
+                Sigprocmask(SIG_SETMASK, &prev, NULL);
+            }
+            
+        default: 
+            builtin_command(token.argv, token.builtin);
+
+    }
+
+    return;
+}
+
+
+
+/*****************
+ * Signal handlers
+ *****************/
+
+/*
+ * TODO: Delete this comment and replace it with your own.
+ * <What does sigchld_handler do?>
+ */
+void sigchld_handler(int sig) {
+    int olderrno = errno; 
+
+    pid_t pid;
+    jid_t jid;
+    int status = 0;
+    sigset_t mask, prev;
+
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGCHLD);
+    sigaddset(&mask, SIGINT);
+    sigaddset(&mask, SIGTSTP);
+    Sigprocmask(SIG_BLOCK, &mask, &prev);
+    
+
+    while((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
+        jid = job_from_pid(pid);
+
+        // if (WIFEXITED(status)){
+        //     delete_job(jid);
+        // }
+        // else if (WIFSIGNALED(status)){
+        //     delete_job(jid);
+        // }
+        // else if (WIFSTOPPED(status)){
+        //     job_set_state(jid, ST);
+        // }
+        // else{
+            delete_job(jid);
+        // }
+    
+    }
+    
+    if (errno != ECHILD){
+        unix_error("waitpid error");
+    }
+
+    Sigprocmask(SIG_SETMASK, &prev, NULL);
+    errno = olderrno;
+
+    return;
+}
+
+/*
+ * TODO: Delete this comment and replace it with your own.
+ * <What does sigint_handler do?>
+ */
+void sigint_handler(int sig) {
+
+    pid_t pid;
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGCHLD);
+    sigaddset(&mask, SIGINT);
+    sigaddset(&mask, SIGTSTP);
+
+    Sigprocmask(SIG_BLOCK, &mask, NULL);
+
+    jid_t jid = fg_job();
+
+    // there is a foreground job
+    if (jid != 0 &&  (pid = job_get_pid(jid)) > 0) {
+         Kill(-pid, SIGINT);
+         delete_job(jid);
+    }
+
+    Sigprocmask(SIG_SETMASK, &mask, NULL);
+
+    return;
+}
+
+/*
+ * TODO: Delete this comment and replace it with your own.
+ * <What does sigtstp_handler do?>
+ */
+void sigtstp_handler(int sig) {
+
+    pid_t pid;
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGCHLD);
+    sigaddset(&mask, SIGINT);
+    sigaddset(&mask, SIGTSTP);
+
+    Sigprocmask(SIG_BLOCK, &mask, NULL);
+
+
+    jid_t jid = fg_job();
+
+    if (jid != 0 &&  (pid = job_get_pid(jid)) > 0) {
+        Kill(-pid, SIGTSTP);
+        job_set_state(jid, ST);
+    }
+
+
+    Sigprocmask(SIG_SETMASK, &mask, NULL);
+
+    return;
+}
+
+/*
+ * cleanup - Attempt to clean up global resources when the program exits. In
+ * particular, the job list must be freed at this time, since it may contain
+ * leftover buffers from existing or even deleted jobs.
+ */
+void cleanup(void) {
+    // Signals handlers need to be removed before destroying the joblist
+    Signal(SIGINT,  SIG_DFL);  // Handles Ctrl-C
+    Signal(SIGTSTP, SIG_DFL);  // Handles Ctrl-Z
+    Signal(SIGCHLD, SIG_DFL);  // Handles terminated or stopped child
+
+    destroy_job_list();
+}

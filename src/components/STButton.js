@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Alert } from 'react-native';
+
 
 export default class STButton extends React.Component {
   render() {
@@ -15,7 +16,7 @@ export default class STButton extends React.Component {
       }}>
       <Button 
         title={ this.props.title }
-        onPress={ () => Alert.alert("hello", "world") }
+        onPress={ this.props.onPress }
         color="#FAE1A1"
       >
       </Button>
