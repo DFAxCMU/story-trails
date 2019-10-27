@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import createStore from './src/store/createStore.js';
 
 import Home from './src/pages/Home.js'
+import StoryPage from './src/pages/StoryPage.js';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class App extends React.Component {
 
     render() {
         return <Provider store={ this.store }>
-            <Home />
+            <StoryPage />
         </Provider>
     }
 }
