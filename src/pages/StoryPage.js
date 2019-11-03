@@ -28,15 +28,25 @@ export default class StoryPage extends React.Component {
                         title='X'
                         color='blue'
                     />
+                   
                 </View>
-
-                <Image 
+                <View
                     style={{
-                        width: 200,
-                        height: 200,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        width: '100%',
+                        flex: 1,
                     }}
-                    source={{ uri: 'https://i.redd.it/x69x81e4ecm31.jpg'}}
+                    >
+                <Image 
+                    resizeMode={'contain'}
+                    style={{
+                        flex:1,
+                        height: '100%'
+                    }}
+                    source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Rectangle_example.svg/1280px-Rectangle_example.svg.png'}}
                 />
+                </View>
                 <View>
                     <Text>
                         { text }
