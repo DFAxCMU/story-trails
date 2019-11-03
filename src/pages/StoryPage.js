@@ -10,19 +10,20 @@ import ProgressBar from '../components/ProgressBar.js'
 
 export default class StoryPage extends React.Component {
     render() {
-        const text = "Sometimes it can be hard to see the board in school"
+        const str = "Sometimes it can be hard to see the board in school"
+
 
         return (
             <View
                 className="storyPage"
                 style={{
-                    height: '100%',
+                    height: '150%',
                     flexDirection: 'column',
                 }}
             >
                 <ProgressBar progress={ 2 } total={ 5 }/>
                 <View
-                    style={{ width: 50, height: 50, }}
+                    style={{ width: 100, height: 100, }}
                 >
                     <Button
                         title='X'
@@ -32,14 +33,23 @@ export default class StoryPage extends React.Component {
 
                 <Image
                     style={{
-                        width: 200,
-                        height: 200,
+                        width: 400,
+                        height: 400,
                     }}
                     source={{ uri: 'https://i.redd.it/x69x81e4ecm31.jpg'}}
                 />
-                <View>
-                    <Text>
-                        { text }
+
+
+                <View style={{
+                  fontWeight: "bold"
+                }}>
+                    <Text style={{
+                      fontSize: 30,
+                      color: 'black',
+                      fontStyle:'normal'
+                    }} >
+                        { str }
+
                     </Text>
                 </View>
                 <View
