@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-    View, 
-    Image, 
-    Button, 
-    Text 
+import {
+    View,
+    Image,
+    Button,
+    Text
 } from 'react-native';
 
 import ProgressBar from '../components/ProgressBar.js'
@@ -24,13 +24,13 @@ export default class StoryPage extends React.Component {
                 <View
                     style={{ width: 50, height: 50, }}
                 >
-                    <Button 
+                    <Button
                         title='X'
                         color='blue'
                     />
                 </View>
 
-                <Image 
+                <Image
                     style={{
                         width: 200,
                         height: 200,
@@ -42,14 +42,22 @@ export default class StoryPage extends React.Component {
                         { text }
                     </Text>
                 </View>
-                <Button
-                    title="<"
-                    color="purple"
-                />
-                <Button
-                    title="Next >"
-                    color="red"
-                />
+                <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    // maxWidth: '70%'
+                }}
+                >
+                    <Button
+                        title="<"
+                        color="purple"
+                        />
+                    <Button
+                        title="Next >"
+                        color="purple"
+                        />
+                </View>
             </View>
         )
     }
