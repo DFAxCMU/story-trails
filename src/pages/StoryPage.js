@@ -17,7 +17,7 @@ export default class StoryPage extends React.Component {
             <View
                 className="storyPage"
                 style={{
-                    height: '150%',
+                    height: '100%',
                     flexDirection: 'column',
                 }}
             >
