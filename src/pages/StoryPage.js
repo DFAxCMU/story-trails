@@ -10,7 +10,8 @@ import ProgressBar from '../components/ProgressBar.js'
 
 export default class StoryPage extends React.Component {
     render() {
-        const text = "Sometimes it can be hard to see the board in school"
+        const str = "Sometimes it can be hard to see the board in school"
+
 
         return (
             <View
@@ -31,26 +32,55 @@ export default class StoryPage extends React.Component {
                       />
                   </View>
                 </View>
-                <Image
+
+                <View
                     style={{
-                        width: 200,
-                        height: 200,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        width: '100%',
+                        flex: 1,
                     }}
-                    source={{ uri: 'https://i.redd.it/x69x81e4ecm31.jpg'}}
+                    >
+                <Image
+                    resizeMode={'contain'}
+                    style={{
+                        flex:1,
+                        height: '100%'
+
+                    }}
+                    source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Rectangle_example.svg/1280px-Rectangle_example.svg.png'}}
                 />
-                <View>
-                    <Text>
-                        { text }
+                </View>
+
+
+
+                <View style={{
+                  fontWeight: "bold"
+                }}>
+                    <Text style={{
+                      fontSize: 30,
+                      color: 'black',
+                      fontStyle:'normal'
+                    }} >
+                        { str }
                     </Text>
                 </View>
-                <Button
-                    title="<"
-                    color="purple"
-                />
-                <Button
-                    title="Next >"
-                    color="red"
-                />
+                <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    // maxWidth: '70%'
+                }}
+                >
+                    <Button
+                        title="<"
+                        color="purple"
+                        />
+                    <Button
+                        title="Next >"
+                        color="purple"
+                        />
+                </View>
             </View>
         )
     }
