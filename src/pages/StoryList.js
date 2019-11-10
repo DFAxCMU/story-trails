@@ -6,7 +6,7 @@ import STButton from '../components/STButton.js';
 export default class StoryList extends React.Component {
 	render(){
 		return (
-			<View 
+			<View
 				className="storyList"
 				style={{
 				backgroundColor: '#4d4c4e',
@@ -30,7 +30,7 @@ export default class StoryList extends React.Component {
 						flexDirection: 'column',
 						backgroundColor: 'white',
 						height: "80%",
-						borderRadius: "10",
+						borderRadius: 10,
 						width: "80%",
 						alignSelf: 'center'
 					}}
