@@ -1,10 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Text, View, Button} from 'react-native';
 import STButton from '../components/STButton.js';
 
 
-export default class StoryList extends React.Component {
+class StoryList extends React.Component {
 	render(){
+	  if(this.props.loading) {
+	    return <View style={{ height: "100%", alignItems: 'center', justifyContent: 'center', }}>
+	      <Text> Loading... </Text>
+	    </View>
+	  }
 		return (
 			<View
 				className="storyList"
@@ -35,17 +41,10 @@ export default class StoryList extends React.Component {
 						alignSelf: 'center'
 					}}
 					>
-					{/* add buttons for each story */}
-					<Button
-						title = "temp2"/>
-					<Button
-						title = "temp3"/>
-					<Button
-						title = "temp4"/>
-					<Button
-						title = "temp5"/>
-					<Button
-						title = "temp6"/>
+					{ this.props.data.map(function(story) {
+					  return <Button  title={ story.title} />
+					  
+					})  }
 				</View>
 
 				<View
@@ -75,3 +74,9 @@ export default class StoryList extends React.Component {
 	}
 
 }
+
+function mapStateToProps(state) {
+  return state.stories
+}
+
+export default connect(mapStateToProps)(StoryList)
