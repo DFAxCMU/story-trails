@@ -1,1 +1,7 @@
-export default () => 1; 
+import { combineReducers } from 'redux';
+
+import stories from './storiesReducer.js'
+
+export default combineReducers({
+  stories
+})
