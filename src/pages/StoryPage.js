@@ -21,15 +21,16 @@ export default class StoryPage extends React.Component {
                     flexDirection: 'column',
                 }}
             >
-                <ProgressBar progress={ 2 } total={ 5 }/>
-                <View
-                    style={{ width: 100, height: 100, }}
-                >
-                    <Button
-                        title='X'
-                        color='blue'
-                    />
-                   
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                  <ProgressBar progress={ 2 } total={ 5 }/>
+                  <View
+                      style={{ width: 50, height: 50, }}
+                  >
+                      <Button
+                          title='X'
+                          color='blue'
+                      />
+                  </View>
                 </View>
 
                 <View
@@ -40,7 +41,7 @@ export default class StoryPage extends React.Component {
                         flex: 1,
                     }}
                     >
-                <Image 
+                <Image
                     resizeMode={'contain'}
                     style={{
                         flex:1,
@@ -50,7 +51,7 @@ export default class StoryPage extends React.Component {
                     source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Rectangle_example.svg/1280px-Rectangle_example.svg.png'}}
                 />
                 </View>
-            
+
 
 
                 <View style={{
