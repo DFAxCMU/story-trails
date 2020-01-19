@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text, View, Button} from 'react-native';
+import { Text, View, Button, Image, TouchableHighlight } from 'react-native';
 import STButton from '../components/STButton.js';
-
 
 export default class StoryList extends React.Component {
 	render(){
@@ -12,18 +11,26 @@ export default class StoryList extends React.Component {
 				backgroundColor: '#4d4c4e',
 				flexDirection: 'column'
 		    }}>
+		        
+				<TouchableHighlight>
 				<View
 					style={{
 						flexDirection: 'row',
-						height: '10%'
-					}}
-					>
-					{/* add profile icon */}
-					<Button
-						title = "temp1" />
-					{/* add welcome user text */}
-					<Text/>
+						height: 50,
+						alignItems: 'center'
+
+					}}>
+					<Image source={require('../../assets/prof.png')}
+						resizeMode={'contain'}
+					 	style={{
+                       		height: '100%',
+                       		width: 50,
+                       		}}/>
+					<Text> Hello, Jack! </Text>
+					
 				</View>
+					
+				</TouchableHighlight>
 
 				<View
 					style={{

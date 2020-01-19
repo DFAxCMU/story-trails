@@ -16,7 +16,7 @@ export default class App extends React.Component {
 
     render() {
         return <Provider store={ this.store }>
-            <StoryList />
+            <StoryPage />
         </Provider>
     }
 }
