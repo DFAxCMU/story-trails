@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import ProgressBar from '../components/ProgressBar.js'
+import STButton from '../components/STButton.js'
 
 import Constants from 'expo-constants';
 
@@ -91,9 +92,9 @@ export default class StoryPage extends React.Component {
                         title="<"
                         color="purple"
                         />
-                    <Button
+                    <STButton
                         title="Next >"
-                        color="purple"
+                        onClick= { (e) => console.log("onClick works") }
                         />
                 </View>
             </View>
