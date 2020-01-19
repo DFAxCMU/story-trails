@@ -8,6 +8,8 @@ import {
 
 import ProgressBar from '../components/ProgressBar.js'
 
+import Constants from 'expo-constants';
+
 export default class StoryPage extends React.Component {
     render() {
         const str = "Sometimes it can be hard to see the board in school"
@@ -19,16 +21,29 @@ export default class StoryPage extends React.Component {
                 style={{
                     height: '100%',
                     flexDirection: 'column',
+
                 }}
             >
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  marginTop: Constants.statusBarHeight,
+                  marginRight: 20,
+
+              }}>
                   <ProgressBar progress={ 2 } total={ 5 }/>
                   <View
-                      style={{ width: 50, height: 50, }}
+                      style={{
+                          width: 55,
+                          height: 40,
+                          borderRadius:17,
+                          backgroundColor: '#7071e5',
+                       }}
                   >
                       <Button
-                          title='X'
-                          color='blue'
+                          title='Exit'
+                          color='white'
+
                       />
                   </View>
                 </View>

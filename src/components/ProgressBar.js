@@ -8,9 +8,14 @@ export default class ProgressBar extends React.Component {
             <View
                 className="progressBar"
                 style={{
-                    height: 50,
-                    flex: 1, 
-                    backgroundColor: '#b491c8'
+                    height: 30,
+                    flex: 1,
+                    backgroundColor: '#9ba7fd',
+                    borderRadius: 17,
+                    marginTop: 10,
+                    marginLeft: 20,
+                    marginRight: 15,
+
                 }}
             >
                 <View
@@ -18,7 +23,8 @@ export default class ProgressBar extends React.Component {
                     style={{
                         width: percent,
                         height: '100%',
-                        backgroundColor: '#3c1361'
+                        backgroundColor: '#7071e5',
+                        borderRadius: 17
                     }}
                 >
                 </View>
