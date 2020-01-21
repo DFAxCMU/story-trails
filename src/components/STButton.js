@@ -12,7 +12,8 @@ export default class STButton extends React.Component {
           margin: 10,
           paddingVertical: 5,
           paddingHorizontal: 15,
-          backgroundColor: '#7071e8'
+          backgroundColor: '#7071e8',
+          alignItems: 'center'
       }}>
           <Text style= {{ 
               color: "white", 
