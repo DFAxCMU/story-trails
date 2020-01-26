@@ -14,7 +14,7 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.store = createStore();
-        
+
         //Dispatching "loadStories" action (controller) to store (model) from App component (view)
         this.store.dispatch(loadStories())
         console.log(this.store.getState())
@@ -26,8 +26,3 @@ export default class App extends React.Component {
         </Provider>
     }
 }
-
-
-
-
-

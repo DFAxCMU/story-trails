@@ -1,6 +1,7 @@
 import React from 'react';
+import { Text, View, Button, Image, TouchableOpacity } from 'react-native';
+
 import { connect } from 'react-redux';
-import { Text, View, Button} from 'react-native';
 import STButton from '../components/STButton.js';
 
 
@@ -15,34 +16,52 @@ class StoryList extends React.Component {
 			<View
 				className="storyList"
 				style={{
-				backgroundColor: '#4d4c4e',
-				flexDirection: 'column'
+				backgroundColor: '#4d4d4d',
+				flexDirection: 'column',
+				height: "100%"
 		    }}>
+		        
+				<TouchableOpacity>
 				<View
 					style={{
 						flexDirection: 'row',
-						height: '10%'
-					}}
-					>
-					{/* add profile icon */}
-					<Button
-						title = "temp1" />
-					{/* add welcome user text */}
-					<Text/>
+						height: 50,
+						alignItems: 'center',
+						marginTop: 20,
+						marginLeft: 5
+					}}>
+					<Image source={require('../../assets/prof.png')}
+						resizeMode={'contain'}
+					 	style={{
+                       		height: '100%',
+                       		width: 50,
+                       		}}/>
+					<Text style= {{ 
+		              color: "white", 
+		              fontSize: 20,
+		              fontFamily: 'Avenir-Heavy'
+		          	}}> Hello, Jack! </Text>
+					
 				</View>
+					
+				</TouchableOpacity>
 
 				<View
 					style={{
 						flexDirection: 'column',
 						backgroundColor: 'white',
 						height: "80%",
-						borderRadius: 10,
-						width: "80%",
+						borderRadius: 20,
+						width: "85%",
 						alignSelf: 'center'
 					}}
 					>
 					{ this.props.data.map(function(story) {
-					  return <Button  title={ story.title } onClick={ () => this.props.navigation.navigate('StoryPage') }/>
+					  return <STButton
+					  	title={ story.title} 
+                                                key={story.title}
+                                                onClick={ () => this.props.navigation.navigate('StoryPage') }
+                                                />
 					  
 					})  }
 				</View>
@@ -51,21 +70,20 @@ class StoryList extends React.Component {
 					style={{
 						flexDirection: 'row',
 						justifyContent: 'center',
-						height: "10%"
 					}}
 					>
 					{/* add medical button */}
-					<Button
-						title = "temp7"/>
+					<STButton
+						title = "1"/>
 					{/* add dentist button */}
-					<Button
-						title = "temp8"/>
+					<STButton
+						title = "2"/>
 					{/* add optical button */}
-					<Button
-						title = "temp9"/>
+					<STButton
+						title = "3"/>
 					{/* add pencil button */}
-					<Button
-						title = "temp10"/>
+					<STButton
+						title = "4"/>
 				</View>
   		
 			</View>

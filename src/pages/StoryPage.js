@@ -7,6 +7,10 @@ import {
 } from 'react-native';
 
 import ProgressBar from '../components/ProgressBar.js'
+import STButton from '../components/STButton.js'
+
+import Constants from 'expo-constants';
+
 
 export default class StoryPage extends React.Component {
     render() {
@@ -19,24 +23,27 @@ export default class StoryPage extends React.Component {
                 style={{
                     height: '100%',
                     flexDirection: 'column',
+                    justifyContent: 'flex-start'
                 }}
             >
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{
+                  flexDirection: 'row',
+                  marginTop: Constants.statusBarHeight,
+                  marginRight: 20,
+
+              }}>
                   <ProgressBar progress={ 2 } total={ 5 }/>
-                  <View
-                      style={{ width: 50, height: 50, }}
-                  >
-                      <Button
-                          title='X'
-                          color='blue'
+                      <STButton
+                          title='Exit'
+                          color='white'
+
                       />
-                  </View>
                 </View>
 
                 <View
                     style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
                         width: '100%',
                         flex: 1,
                     }}
@@ -45,14 +52,12 @@ export default class StoryPage extends React.Component {
                     resizeMode={'contain'}
                     style={{
                         flex:1,
-                        height: '100%'
+                        height: '100%',
 
                     }}
                     source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Rectangle_example.svg/1280px-Rectangle_example.svg.png'}}
                 />
                 </View>
-
-
 
                 <View style={{
                   fontWeight: "bold"
@@ -65,6 +70,7 @@ export default class StoryPage extends React.Component {
                         { str }
                     </Text>
                 </View>
+
                 <View
                 style={{
                     flexDirection: 'row',
@@ -76,9 +82,9 @@ export default class StoryPage extends React.Component {
                         title="<"
                         color="purple"
                         />
-                    <Button
+                    <STButton
                         title="Next >"
-                        color="purple"
+                        onClick= { (e) => console.log("onClick works") }
                         />
                 </View>
             </View>
