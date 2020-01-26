@@ -18,7 +18,6 @@ export default class STButton extends React.Component {
           <Text style= {{ 
               color: "white", 
               fontSize: 20,
-              fontFamily: 'Avenir-Heavy'
             }}> { this.props.title } </Text>
       </TouchableOpacity>
     </View>
