@@ -6,6 +6,7 @@ import createStore from './src/store/createStore.js';
 import Home from './src/pages/Home.js'
 import StoryPage from './src/pages/StoryPage.js';
 import StoryList from './src/pages/StoryList.js';
+import Navigator from './src/components/Navigator.js';
 
 import { loadStories } from './src/actions/storyActions.js'
 
@@ -21,7 +22,7 @@ export default class App extends React.Component {
 
     render() {
         return <Provider store={ this.store }>
-            <StoryList />
+            <Navigator />
         </Provider>
     }
 }

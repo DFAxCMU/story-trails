@@ -42,7 +42,7 @@ class StoryList extends React.Component {
 					}}
 					>
 					{ this.props.data.map(function(story) {
-					  return <Button  title={ story.title} />
+					  return <Button  title={ story.title } onClick={ () => this.props.navigation.navigate('StoryPage') }/>
 					  
 					})  }
 				</View>
