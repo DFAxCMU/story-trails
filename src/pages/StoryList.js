@@ -37,8 +37,8 @@ class StoryList extends React.Component {
                                     height: '100%',
                                     width: 50,
                                 }}/>
-                            <Text style= {{ 
-                                color: "white", 
+                            <Text style= {{
+                                color: "white",
                                 fontSize: 20,
                             }}> Hello, Jack! </Text>
 
@@ -59,9 +59,13 @@ class StoryList extends React.Component {
                     { this.props.data.map(story => {
                         console.log("props2", this.props)
                         return <STButton
-                            title={ story.title} 
+                            title={ story.title}
                             key={story.title}
-                            onClick={ () => this.props.navigation.navigate('StoryPage') }
+                            onClick={ () => {
+                              this.props.startStory(story.title)
+                              this.props.navigation.navigate('StoryPage')
+                              
+                            } }
                         />
 
                     })  }

@@ -1,4 +1,4 @@
-export default function currentStory(state, action) {
+  export default function currentStory(state, action) {
   switch(action.type) {
     case 'START_STORY':
       return {

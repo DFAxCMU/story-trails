@@ -9,3 +9,10 @@ export function loadStories() {
     }, 3000)
   }
 }
+
+export function startStory(id) {
+  return {
+    type: 'START_STORY',
+    id: id,
+  }
+}

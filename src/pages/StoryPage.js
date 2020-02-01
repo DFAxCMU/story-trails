@@ -14,9 +14,7 @@ import Constants from 'expo-constants';
 
 export default class StoryPage extends React.Component {
     render() {
-        const str = "Sometimes it can be hard to see the board in school"
-
-
+      const page = this.props.stories[this.props.currentStory.id].pages[this.props.currentStory.page]
         return (
             <View
                 className="storyPage"
@@ -55,7 +53,7 @@ export default class StoryPage extends React.Component {
                         height: '100%',
 
                     }}
-                    source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Rectangle_example.svg/1280px-Rectangle_example.svg.png'}}
+                    source={{ uri: page.image }}
                 />
                 </View>
 
@@ -67,7 +65,7 @@ export default class StoryPage extends React.Component {
                       color: 'black',
                       fontStyle:'normal'
                     }} >
-                        { str }
+                        { page.text }
                     </Text>
                 </View>
 
@@ -91,3 +89,12 @@ export default class StoryPage extends React.Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+      currentStory: state.currentStory,
+      stories: state.stories,
+    }
+}
+
+export default connect(mapStateToProps)(StoryList)
