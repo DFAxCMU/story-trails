@@ -3,7 +3,7 @@ export default function currentStory(state, action) {
     case 'START_STORY':
       return {
         id: action.id,
-        page: 1,
+        page: 0,
       }
     default:
       return {

@@ -6,14 +6,17 @@ import {
     Text
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import ProgressBar from '../components/ProgressBar.js'
 import STButton from '../components/STButton.js'
 
 import Constants from 'expo-constants';
 
 
-export default class StoryPage extends React.Component {
+class StoryPage extends React.Component {
     render() {
+        console.log(this.props)
       const page = this.props.stories[this.props.currentStory.id].pages[this.props.currentStory.page]
         return (
             <View
@@ -92,9 +95,9 @@ export default class StoryPage extends React.Component {
 
 function mapStateToProps(state) {
     return {
-      currentStory: state.currentStory,
-      stories: state.stories,
+        currentStory: state.currentStory,
+        stories: state.stories.data,
     }
 }
 
-export default connect(mapStateToProps)(StoryList)
+export default connect(mapStateToProps)(StoryPage)

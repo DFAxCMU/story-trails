@@ -4,11 +4,12 @@ import { Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import STButton from '../components/STButton.js';
 
+import { startStory } from '../actions/storyActions.js'
 
 class StoryList extends React.Component {
 	render(){
             console.log("props", this.props);
-	  if(this.props.loading) {
+	  if(this.props.stories.loading) {
               return <View style={{ height: "100%", alignItems: 'center', justifyContent: 'center', }}>
                   <Text> Loading... </Text>
               </View>
@@ -56,13 +57,13 @@ class StoryList extends React.Component {
                         alignSelf: 'center'
                     }}
                 >
-                    { this.props.data.map(story => {
+                    { this.props.stories.data.map((story, i) => {
                         console.log("props2", this.props)
                         return <STButton
                             title={ story.title}
                             key={story.title}
                             onClick={ () => {
-                              this.props.startStory(story.title)
+                              this.props.startStory(i)
                               this.props.navigation.navigate('StoryPage')
                               
                             } }
@@ -99,7 +100,13 @@ class StoryList extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return state.stories
+    return {
+        stories: state.stories,
+    }
 }
 
-export default connect(mapStateToProps)(StoryList)
+const mapDispatchToProps = {
+    startStory,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoryList)
