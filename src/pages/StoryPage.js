@@ -18,6 +18,8 @@ class StoryPage extends React.Component {
     render() {
         console.log(this.props)
       const page = this.props.stories[this.props.currentStory.id].pages[this.props.currentStory.page]
+      const currentpage=this.props.currentStory.page +1
+      const totalpage=this.props.stories[this.props.currentStory.id].pages.length
         return (
             <View
                 className="storyPage"
@@ -33,7 +35,7 @@ class StoryPage extends React.Component {
                   marginRight: 20,
 
               }}>
-                  <ProgressBar progress={ 2 } total={ 5 }/>
+                  <ProgressBar progress={ currentpage } total={ totalpage }/>
                       <STButton
                           title='Exit'
                           color='white'
