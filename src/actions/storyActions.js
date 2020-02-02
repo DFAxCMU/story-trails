@@ -16,3 +16,15 @@ export function startStory(id) {
     id: id,
   }
 }
+
+export function nextPage() {
+  return {
+    type: 'NEXT_PAGE',
+  }
+}
+
+export function backPage() {
+  return {
+    type: 'BACK_PAGE',
+  }
+}

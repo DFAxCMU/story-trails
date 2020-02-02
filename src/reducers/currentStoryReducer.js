@@ -5,6 +5,16 @@ export default function currentStory(state, action) {
         id: action.id,
         page: 0,
       }
+    case 'NEXT_PAGE':
+      return {
+        id: state.id,
+        page: (state.page + 1),
+      }
+    case 'BACK_PAGE':
+      return {
+        id: state.id,
+        page: (state.page - 1),
+      }
     default:
       return {
         id: null,
