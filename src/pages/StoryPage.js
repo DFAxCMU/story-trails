@@ -13,6 +13,8 @@ import STButton from '../components/STButton.js'
 
 import Constants from 'expo-constants';
 
+import { nextPage, backPage } from '../actions/storyActions.js'
+
 
 class StoryPage extends React.Component {
     render() {
@@ -79,14 +81,17 @@ class StoryPage extends React.Component {
                     // maxWidth: '70%'
                 }}
                 >
-                    <Button
+                    { this.props.currentStory.page != 0 &&
+                      <STButton
                         title="<"
-                        color="purple"
-                        />
-                    <STButton
+                        onClick={ () => this.props.backPage() } 
+                      />}
+                    { (this.props.currentStory.page) != 
+                      (this.props.stories[this.props.currentStory.id].pages.length - 1) &&
+                      <STButton
                         title="Next >"
-                        onClick= { (e) => console.log("onClick works") }
-                        />
+                        onClick={ () => this.props.nextPage() } 
+                      />}
                 </View>
             </View>
         )
@@ -100,4 +105,9 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(StoryPage)
+const mapDispatchToProps = {
+    nextPage,
+    backPage
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoryPage)
