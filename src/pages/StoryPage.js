@@ -37,7 +37,9 @@ class StoryPage extends React.Component {
                       <STButton
                           title='Exit'
                           color='white'
-
+                          onClick={ () => {
+                            this.props.navigation.popToTop()
+                          }}
                       />
                 </View>
 
