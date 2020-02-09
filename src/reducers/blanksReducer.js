@@ -26,6 +26,8 @@ export default function blanksReducer(state, action) {
                 return blank
             })
         default: 
-            return state || []
+            return state || 
+            [{id: 0, title: "Test1", placeholder: "answer1"},
+            {id: 1, title: "Test2", placeholder: "answer2"}]
     }
 }
