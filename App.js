@@ -6,6 +6,7 @@ import createStore from './src/store/createStore.js';
 import Home from './src/pages/Home.js'
 import StoryPage from './src/pages/StoryPage.js';
 import StoryList from './src/pages/StoryList.js';
+import BlanksForm from './src/pages/BlanksForm.js';
 import Navigator from './src/components/Navigator.js';
 
 import { loadStories } from './src/actions/storyActions.js'
