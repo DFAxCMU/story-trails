@@ -96,7 +96,6 @@ class StoryList extends React.Component {
             )
 
         }
-
 }
 
 function mapStateToProps(state) {
