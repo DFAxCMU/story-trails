@@ -3,8 +3,9 @@
 	"pages": [
 		{
 			"text": "Sometimes it can be hard to see the board in school.",
-			"type": "Basic",
-			"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1200px-SNice.svg.png",
+			"type": "ITIView",
+			"image1": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1200px-SNice.svg.png",
+			"image2": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1200px-SNice.svg.png",
 		},
 		{
 			"text": "I also find it hard to see other things everyday, like my toys and homework.",
@@ -12,8 +13,9 @@
 			"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1200px-SNice.svg.png",
 		},		
 		{
-			"text": "Sometimes I get a headache...",
-			"type": "Basic",
+			"text1": "Sometimes I get a headache...",
+			"text2": "Sometimes I get a headache...",
+			"type": "TITView",
 			"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1200px-SNice.svg.png",
 		},
 

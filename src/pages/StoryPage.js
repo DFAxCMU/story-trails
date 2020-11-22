@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 
 import ProgressBar from '../components/ProgressBar.js'
 import STButton from '../components/STButton.js'
+import BasicView from '../components/BasicView.js'
+import ITIView from '../components/ITIView.js'
+import TITView from '../components/TITView.js'
 
 import Constants from 'expo-constants';
 
@@ -17,8 +20,19 @@ import { nextPage, backPage } from '../actions/storyActions.js'
 
 
 class StoryPage extends React.Component {
+    layoutView(page) {
+        switch (page.type) {
+            case "ITIView":
+                return <ITIView page={ page }/>
+
+            case "Basic":
+                return <BasicView page={ page }/>
+
+            case "TITView":
+                return <TITView page={ page }/>
+        }
+    }
     render() {
-        console.log(this.props)
       const page = this.props.stories[this.props.currentStory.id].pages[this.props.currentStory.page]
       const currentpage=this.props.currentStory.page +1
       const totalpage=this.props.stories[this.props.currentStory.id].pages.length
@@ -47,36 +61,7 @@ class StoryPage extends React.Component {
                       />
                 </View>
 
-                <View
-                    style={{
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-                        width: '100%',
-                        flex: 1,
-                    }}
-                    >
-                <Image
-                    resizeMode={'contain'}
-                    style={{
-                        flex:1,
-                        height: '100%',
-
-                    }}
-                    source={{ uri: page.image }}
-                />
-                </View>
-
-                <View style={{
-                  fontWeight: "bold"
-                }}>
-                    <Text style={{
-                      fontSize: 30,
-                      color: 'black',
-                      fontStyle:'normal'
-                    }} >
-                        { page.text }
-                    </Text>
-                </View>
+                { this.layoutView(page) }
 
                 <View
                 style={{
