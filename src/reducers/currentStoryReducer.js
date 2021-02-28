@@ -16,7 +16,7 @@ export default function currentStory(state, action) {
         page: (state.page - 1),
       }
     default:
-      return {
+      return state || {
         id: null,
       }
   }
