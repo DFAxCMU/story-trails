@@ -1,4 +1,5 @@
 export default function blanksReducer(state, action) {
+    console.log("Actions from blanksRedcuer: ", action);
     switch(action.type) {
         case 'LOAD_BLANKS':
             return action.blanks.map(blank => {
@@ -27,7 +28,12 @@ export default function blanksReducer(state, action) {
             })
         default: 
             return state || 
-            [{id: 0, title: "Test1", placeholder: "answer1"},
-            {id: 1, title: "Test2", placeholder: "answer2"}]
+                [{ 
+                    id: 0, 
+                    title: "Test1", 
+                    placeholder: "answer1", 
+                    answer: undefined 
+                },
+                    { id: 1, title: "Test2", placeholder: "answer2" }]
     }
 }

@@ -37,7 +37,7 @@ class StoryList extends React.Component {
                                 style={{
                                     height: '100%',
                                     width: 50,
-                                }}/>
+                                }} />
                             <Text style= {{
                                 color: "white",
                                 fontSize: 20,

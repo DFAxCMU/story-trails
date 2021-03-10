@@ -38,7 +38,7 @@ class BlanksForm extends React.Component {
                   borderWidth: 1, 
                   height: 40}}
                 
-                  onSubmitEditing={(event) => updateBlanks( event.nativeEvent.text)}>{
+                  onSubmitEditing={(event) => this.props.updateBlanks(item.id, event.nativeEvent.text)}>{
                 item.placeholder}</TextInput>
               </View>}
             />
@@ -59,4 +59,4 @@ const mapDispatchToProps = {
   updateBlanks,
 }
 
-export default connect(mapStateToProps)(BlanksForm)
+export default connect(mapStateToProps, mapDispatchToProps)(BlanksForm)
