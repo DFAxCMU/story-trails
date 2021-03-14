@@ -2,8 +2,7 @@ import React from 'react';
 import { Text, View, Button, Alert } from 'react-native';
 import STButton from '../components/STButton.js';
 
-export default class Home extends React.Component {
-  render() {
+export default function Home(props) {
     return (
       <View style={{ 
         justifyContent: 'center', 
@@ -20,10 +19,9 @@ export default class Home extends React.Component {
         </Text>
         <STButton title="Login"> </STButton>
         <STButton title="Register"
-                  onPress={() => this.props.navigation.navigate('Register')}> </STButton>
+                  onPress={() => props.navigation.navigate('Register')}> </STButton>
         <STButton title="Start"
-                  onPress={() => this.props.navigation.navigate('StoryList')}> </STButton>
+                  onPress={() => props.navigation.navigate('StoryList')}> </STButton>
       </View>
     );
-  }
 }
